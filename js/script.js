@@ -53,3 +53,16 @@ $tabBtn.forEach(item => {
 
   });
 });
+
+/**
+ * View Counter
+ */
+
+const counter =  document.querySelector(".view-counter");
+async function updateCounter() {
+  let response = await fetch("https://2fkl427wfut42nncdvvfogaibi0nvnkl.lambda-url.us-east-1.on.aws");
+  let data = await response.json();
+  counter.innerHTML = `Built with ❤️ | Visitors: ${data}`;
+}
+
+updateCounter();
