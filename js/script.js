@@ -66,3 +66,49 @@ async function updateCounter() {
 }
 
 updateCounter();
+
+/**
+ * Email Script
+ */
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById('myForm');
+  
+  form.addEventListener('submit', function(e) {
+      // Prevent the default form submission
+      e.preventDefault();
+      
+      // Gather form data
+      const formData = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          subject: document.getElementById('subject').value,
+          message: document.getElementById('message').value
+      };
+      
+      // API Gateway endpoint URL
+      const apiGatewayUrl = "https://hjp2xotrjf.execute-api.us-east-1.amazonaws.com/dev";
+      
+      // Send a POST request to the API Gateway endpoint
+      fetch(apiGatewayUrl, {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json(); // or .text() if the response is not in JSON format
+          }
+          throw new Error('Network response was not ok.');
+      })
+      .then(data => {
+          console.log("Success:", data);
+          // Here you can handle the successful submission, e.g., showing a success message
+      })
+      .catch(error => {
+          console.error("Error:", error);
+          // Here you can handle the error, e.g., showing an error message
+      });
+  });
+});
