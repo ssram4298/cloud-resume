@@ -72,6 +72,9 @@ updateCounter();
  */
 document.addEventListener("DOMContentLoaded", function() {
   const form = document.getElementById('myForm');
+  const button = form.querySelector('.btn'); // Get the button from the form
+  const buttonText = button.querySelector('.label-large'); // Get the span that contains the button text
+  const originalButtonText = buttonText.textContent; // Store the original button text
   
   form.addEventListener('submit', function(e) {
       // Prevent the default form submission
@@ -98,17 +101,31 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .then(response => {
           if (response.ok) {
-              return response.json(); // or .text() if the response is not in JSON format
+              return response.json();
           }
           throw new Error('Network response was not ok.');
       })
       .then(data => {
           console.log("Success:", data);
-          // Here you can handle the successful submission, e.g., showing a success message
+          // Change button text and color
+          buttonText.textContent = "Submitted Successfully";
+          button.style.backgroundColor = '#78C86E';
+          
+          // Clear input fields
+          document.getElementById('name').value = '';
+          document.getElementById('email').value = '';
+          document.getElementById('subject').value = '';
+          document.getElementById('message').value = '';
+          
+          // Revert button text and color after a delay
+          setTimeout(() => {
+              buttonText.textContent = originalButtonText; // Revert to original text
+              button.style.backgroundColor = ''; // Revert to original color (or set to a specific color if needed)
+          }, 15000); // Delay in milliseconds, adjust as needed, 
       })
       .catch(error => {
           console.error("Error:", error);
-          // Here you can handle the error, e.g., showing an error message
       });
   });
 });
+
